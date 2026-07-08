@@ -78,8 +78,8 @@
 
   /* PHASE NAV */
   .phase-nav {
-    background: var(--cream);
-    border-bottom: 1px solid var(--linha);
+    background: var(--grafite);
+    border-bottom: 1px solid #3a3a38;
     padding: 0 16px;
     overflow-x: auto;
     scrollbar-width: none;
@@ -101,7 +101,7 @@
     padding: 14px 16px;
     font-family: 'Arial', sans-serif;
     font-size: 12px;
-    color: var(--text-muted);
+    color: #aaa;
     cursor: pointer;
     border-bottom: 3px solid transparent;
     transition: all 0.2s;
@@ -109,11 +109,11 @@
     letter-spacing: 0.5px;
   }
   .phase-btn.active {
-    color: var(--terracota);
+    color: var(--terracota-light);
     border-bottom-color: var(--terracota);
     font-weight: bold;
   }
-  .phase-btn:hover { color: var(--grafite); }
+  .phase-btn:hover { color: var(--terracota-light); }
 
   /* MAIN */
   main {
@@ -649,6 +649,59 @@
     <button class="phase-btn" onclick="goToPhase(6)" id="nav6">Meu Mapa</button>
   </div>
 </nav>
+
+<section id="pergunta-abertura" style="max-width:700px;margin:24px auto 0;padding:0 16px;">
+<div style="background:var(--card-bg);border-left:4px solid var(--terracota);border-radius:var(--radius-sm);padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06);">
+<p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracota);margin-bottom:10px;">MOMENTO DE HONESTIDADE</p>
+<h3 style="font-size:18px;font-style:italic;color:var(--grafite);line-height:1.4;margin-bottom:14px;">Todo padrão começa a mudar quando você aprende a reconhecê-lo.</h3>
+<p style="font-size:14px;color:#555;line-height:1.7;margin-bottom:18px;">Antes de mapear seus gatilhos, responda apenas uma pergunta. Ela vai ajudar você a aproveitar este material com um olhar mais atento sobre si mesma.</p>
+<p style="font-family:Arial,sans-serif;font-weight:bold;font-size:14px;color:var(--grafite);margin-bottom:10px;">O que mais costuma acionar o seu modo sobrevivência?</p>
+<div id="paOpcoesB1" style="display:grid;gap:8px;">
+<div class="pa-opcao-b1" data-op="1" style="background:var(--fundo);border:1.5px solid var(--linha);border-radius:var(--radius-sm);padding:13px 15px;cursor:pointer;transition:all .15s;font-size:14px;color:#444;font-family:Arial,sans-serif;line-height:1.5;">Quando as responsabilidades começam a se acumular.</div>
+<div class="pa-opcao-b1" data-op="2" style="background:var(--fundo);border:1.5px solid var(--linha);border-radius:var(--radius-sm);padding:13px 15px;cursor:pointer;transition:all .15s;font-size:14px;color:#444;font-family:Arial,sans-serif;line-height:1.5;">Quando sinto que preciso dar conta de tudo sozinha.</div>
+<div class="pa-opcao-b1" data-op="3" style="background:var(--fundo);border:1.5px solid var(--linha);border-radius:var(--radius-sm);padding:13px 15px;cursor:pointer;transition:all .15s;font-size:14px;color:#444;font-family:Arial,sans-serif;line-height:1.5;">Quando minha mente não consegue desacelerar.</div>
+</div>
+<div id="paObrigadaB1" style="display:none;margin-top:16px;font-size:14px;color:var(--terracota);font-style:italic;font-family:Georgia,serif;text-align:center;">Obrigada. Ao longo deste material, você vai perceber que muitos dos seus gatilhos seguem um padrão. Começar a reconhecê-los é o primeiro passo para deixar de ser controlada por eles.</div>
+</div>
+</section>
+
+<script>
+(function(){
+  var saved = localStorage.getItem('pa_resposta_b1');
+  var wrap = document.getElementById('paOpcoesB1');
+  var obrigada = document.getElementById('paObrigadaB1');
+  if(!wrap) return;
+  var opcoes = wrap.querySelectorAll('.pa-opcao-b1');
+  function limpar(){
+    opcoes.forEach(function(o){ o.style.background='var(--fundo)'; o.style.borderColor='var(--linha)'; o.style.color='#444'; });
+  }
+  function marcar(el){
+    limpar();
+    el.style.background='var(--salvia-light)'; el.style.borderColor='var(--salvia)'; el.style.color='var(--grafite)';
+  }
+  if(saved){
+    opcoes.forEach(function(el){ if(el.getAttribute('data-op')===saved) marcar(el); });
+    obrigada.style.display='block';
+  }
+  opcoes.forEach(function(el){
+    el.addEventListener('click', function(){
+      var jaMarcado = el.getAttribute('data-op') === localStorage.getItem('pa_resposta_b1');
+      if(jaMarcado){
+        limpar();
+        localStorage.removeItem('pa_resposta_b1');
+        obrigada.style.display='none';
+      } else {
+        marcar(el);
+        localStorage.setItem('pa_resposta_b1', el.getAttribute('data-op'));
+        obrigada.style.display='block';
+      }
+    });
+  });
+})();
+</script>
+
+
+
 
 <main>
 
